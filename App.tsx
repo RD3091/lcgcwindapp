@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header';
 import CurrentConditions from './components/CurrentConditions';
 import HourlyForecast from './components/HourlyForecast';
 import { getCurrentConditions, getHourlyForecast } from './services/weatherService';
 import type { CurrentWeather, HourlyForecastItem } from './types';
-import RefreshIcon from './components/icons/RefreshIcon';
+import RulesModal from './components/RulesModal';
 
 const App: React.FC = () => {
   const [currentWeather, setCurrentWeather] = useState<CurrentWeather | null>(null);
@@ -17,6 +16,7 @@ const App: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [deviceHeading, setDeviceHeading] = useState<number | null>(null);
   const [compassPermission, setCompassPermission] = useState<'prompt' | 'granted' | 'denied'>('prompt');
+  const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
 
   const fetchCurrent = useCallback(async () => {
     try {
@@ -148,18 +148,12 @@ const App: React.FC = () => {
   return (
     <div className="bg-[#0D1A1A] min-h-screen font-sans flex justify-center">
       <div className="w-full max-w-md bg-[#112020] shadow-2xl flex flex-col">
-        <Header lastUpdated={formatLastUpdated(lastUpdated)} />
+        <Header
+          lastUpdated={formatLastUpdated(lastUpdated)}
+          onRefreshClick={handleRefresh}
+          isRefreshing={isRefreshing}
+        />
         <main className="flex-grow bg-[#F0EEEA] p-6 rounded-t-3xl -mt-6 z-10 relative">
-          <div className="absolute top-6 right-6 z-20">
-            <button
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-              className="p-2 rounded-full bg-white/50 hover:bg-white/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Refresh weather data"
-            >
-              <RefreshIcon className={`w-6 h-6 text-[#1A3A3A] ${isRefreshing ? 'animate-spin' : ''}`} />
-            </button>
-          </div>
           {notification && (
              <div className="bg-amber-100 border border-amber-300 text-amber-800 px-4 py-3 rounded-lg relative text-center mb-6" role="alert">
                 {notification}
@@ -185,12 +179,13 @@ const App: React.FC = () => {
                   permissionState={compassPermission}
                   onRequestPermission={handleRequestPermission}
                 />
-                <HourlyForecast hourly={hourlyForecast} />
+                <HourlyForecast hourly={hourlyForecast} onShowRules={() => setIsRulesModalOpen(true)} />
               </div>
             </>
           )}
         </main>
       </div>
+      <RulesModal isOpen={isRulesModalOpen} onClose={() => setIsRulesModalOpen(false)} />
     </div>
   );
 };

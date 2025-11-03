@@ -1,5 +1,5 @@
-
 import React from 'react';
+import InfoIcon from './icons/InfoIcon';
 
 interface RulesModalProps {
   isOpen: boolean;
@@ -11,11 +11,11 @@ const RulesModal: React.FC<RulesModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4"
       onClick={onClose}
     >
       <div 
-        className="bg-white rounded-lg shadow-xl p-6 m-4 max-w-sm w-full"
+        className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
       >
         <h3 className="text-xl font-bold text-[#1A3A3A] mb-4">Usage & Rules Information</h3>
@@ -29,6 +29,13 @@ const RulesModal: React.FC<RulesModalProps> = ({ isOpen, onClose }) => {
             </p>
             <p className="mt-1">
               <strong>Example:</strong> If the wind is from the North (a headwind on a North-facing hole) and you point your phone East, the arrow will point left.
+            </p>
+          </div>
+
+          <div className="p-3 bg-gray-100 rounded-lg flex items-start gap-3">
+            <InfoIcon className="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" />
+            <p className="text-gray-800">
+              The wind dial data is live and updates automatically every 30 minutes.
             </p>
           </div>
 
