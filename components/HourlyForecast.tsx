@@ -1,12 +1,11 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import type { HourlyForecastItem } from '../types';
 import { degreesToCardinal } from '../utils/weatherUtils';
-import RulesModal from './RulesModal';
 import InfoIcon from './icons/InfoIcon';
 
 interface HourlyForecastProps {
   hourly?: HourlyForecastItem[];
+  onShowRules: () => void;
 }
 
 const ForecastArrow: React.FC<{ direction: number }> = ({ direction }) => (
@@ -27,9 +26,7 @@ const ForecastArrow: React.FC<{ direction: number }> = ({ direction }) => (
 );
 
 
-const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly, onShowRules }) => {
   const formatTime = (timestamp: number) => {
     return new Date(timestamp * 1000).toLocaleTimeString('en-US', {
       hour: 'numeric',
@@ -47,7 +44,7 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly }) => {
        <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-[#1A3A3A]">Forecast</h2>
             <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={onShowRules}
                 className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 transition-colors font-medium"
                 aria-label="Show usage and rules information"
             >
@@ -95,7 +92,6 @@ const HourlyForecast: React.FC<HourlyForecastProps> = ({ hourly }) => {
           )}
         </div>
       </div>
-      <RulesModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };
