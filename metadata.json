@@ -1,0 +1,5 @@
+{
+  "name": "Wind Guide Pro",
+  "description": "A progressive web app for golfers to get real-time wind conditions and hourly forecasts, featuring a dynamic wind compass.",
+  "requestFramePermissions": []
+}

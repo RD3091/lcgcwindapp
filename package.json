@@ -1,0 +1,19 @@
+{
+  "name": "wind-guide-pro",
+  "version": "1.0.0",
+  "description": "A progressive web app for golfers to get real-time wind conditions.",
+  "private": true,
+  "scripts": {
+    "build": "mkdir -p public && cp index.html public/index.html && esbuild index.tsx --bundle --outfile=public/bundle.js --jsx=automatic --minify"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "esbuild": "^0.17.12",
+    "typescript": "^4.9.5"
+  }
+}
